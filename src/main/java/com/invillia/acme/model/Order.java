@@ -32,7 +32,6 @@ import com.invillia.acme.utils.StringUtils;
 public class Order {
 
 	@Id
-	@JsonIgnore
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "orderId")
 	private Long orderId;

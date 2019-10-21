@@ -23,8 +23,8 @@ public class OrderController {
 	@Autowired
 	OrderRepository orderRepository;
 
-//	@Autowired
-//	AddressRepository addressRepository;
+	@Autowired
+	AddressRepository addressRepository;
 
 	public List<Order> findAll() {
 		return orderRepository.findAll();
@@ -44,30 +44,29 @@ public class OrderController {
 
 	}
 
-	public Order updateStore(Order order) throws IOException {
+	public Order updateOrder(Order order) throws IOException {
+		Optional<Order> persistentOrder = findById(order.getOrderId());
+		
+			order.setOrderId(persistentOrder.get().getOrderId());
+			order = defineAddress(order);
 
-		Order persistentOrder = Optional.ofNullable(orderRepository.findById(order.getOrderId()));
-//			
-//			store.setStoreId(persistentStore.get(0).getStoreId());
-//			store = defineAddress(store);
-//
-//			org.springframework.beans.BeanUtils.copyProperties(store, persistentStore.get(0));
-//			storeRepository.save(persistentStore.get(0));
-//
+			org.springframework.beans.BeanUtils.copyProperties(order, persistentOrder.get().getOrderId());
+			orderRepository.save(persistentOrder.get());
+
 		return order;
 
 	}
 
-//	private Store defineAddress(Store store) {
-//		for (int i = 0; i < store.getAddress().size(); i++) {
-//			List<Address> addresses = addressRepository.findByStoreIdAndCityIgnoreCaseAndZip(store.getStoreId(),
-//					store.getAddress().get(i).getCity(), store.getAddress().get(i).getZip());
-//
-//			if (!addresses.isEmpty()) {
-//				store.getAddress().get(i).setAddressId(addresses.get(i).getAddressId());
-//				store.getAddress().get(i).setStoreId(store.getStoreId());
-//			}
-//		}
-//		return store;
-//	}
+	private Order defineAddress(Order order) {
+		for (int i = 0; i < order.getAddress().size(); i++) {
+			List<Address> addresses = addressRepository.findByStoreIdAndCityIgnoreCaseAndZip(order.getOrderId(),
+					order.getAddress().get(i).getCity(), order.getAddress().get(i).getZip());
+
+			if (!addresses.isEmpty()) {
+				order.getAddress().get(i).setAddressId(addresses.get(i).getAddressId());
+				order.getAddress().get(i).setOrderId(order.getOrderId());
+			}
+		}
+		return order;
+	}
 }
