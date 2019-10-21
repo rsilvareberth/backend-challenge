@@ -69,7 +69,7 @@ public class StoreController {
 					store.getAddress().get(i).getCity(), store.getAddress().get(i).getZip());
 
 			if (!addresses.isEmpty()) {
-				store.getAddress().get(i).setId(addresses.get(i).getId());
+				store.getAddress().get(i).setAddressId(addresses.get(i).getAddressId());
 				store.getAddress().get(i).setStoreId(store.getStoreId());
 			}
 		}

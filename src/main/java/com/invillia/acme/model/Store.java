@@ -19,10 +19,8 @@ import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
 @Entity(name = "store")
-@Table(name = "store",
-	uniqueConstraints = @UniqueConstraint(columnNames = "name", name = "unique_name"))
+@Table(name = "store", uniqueConstraints = @UniqueConstraint(columnNames = "name", name = "unique_name"))
 
 public class Store {
 
@@ -37,7 +35,7 @@ public class Store {
 	@JoinColumn(name = "storeId")
 	private List<Address> address = new ArrayList<>();
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	protected String name;
 
 	public Long getStoreId() {
